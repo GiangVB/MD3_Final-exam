@@ -9,7 +9,7 @@ public class SingletonConnection {
     private static Connection connection;
     private SingletonConnection() {
     }
-    public static final String URL = "jdbc:mysql://localhost:3306/walletmanagement";
+    public static final String URL = "jdbc:mysql://localhost:3306/product_management";
     public static final String USER = "root";
     public static final String PASSWORD = "Ho!Ecbl4y3nl0?";
 
