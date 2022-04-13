@@ -12,6 +12,10 @@ import java.util.List;
 
 public class CategoryDAO implements ICategoryDAO {
 
+    public static final String INSERT_CATEGORY_SQL = "insert into category(name) values (?)";
+    public static final String SELECT_ALL_CATEGORY_SQL = "select * from category;";
+    public static final String SELECT_CATEGORY_BY_ID_SQL = "select * from category where id = ?;";
+
     public CategoryDAO() {
     }
 
@@ -19,7 +23,7 @@ public class CategoryDAO implements ICategoryDAO {
     public List<Category> selectAll() {
         List<Category> categoryList = new ArrayList<>();
         try(Connection connection = SingletonConnection.getConnect();
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from category;")) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_CATEGORY_SQL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -36,7 +40,7 @@ public class CategoryDAO implements ICategoryDAO {
     @Override
     public void insert(Category category) {
         try (Connection connection = SingletonConnection.getConnect();
-             PreparedStatement preparedStatement = connection.prepareStatement("insert into category(name) values (?)")) {
+             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_CATEGORY_SQL)) {
             preparedStatement.setString(1, category.getName());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -48,7 +52,7 @@ public class CategoryDAO implements ICategoryDAO {
     public Category getById(int id) {
         Category category = null;
         try (Connection connection = SingletonConnection.getConnect();
-             PreparedStatement preparedStatement = connection.prepareStatement("select * from category where id = ?;")) {
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CATEGORY_BY_ID_SQL)) {
             preparedStatement.setInt(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
